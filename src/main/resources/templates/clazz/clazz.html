@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+
+    <title>教师管理</title>
+
+
+    <link href="css/bootstrap.min.css?v=3.4.0" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css?v=4.3.0" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=2.2.0" rel="stylesheet">
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <style type="text/css">
+        .page{text-align: center;margin-top: 50px;}
+        .page a,.page span{text-decoration: none;border:1px solid darkseagreen;padding: 5px 7px; color: darkseagreen; cursor: pointer;}
+        .page a:hover,.page span:hover{ color: greenyellow;}
+        .page a:active{color: red}
+    </style>
+    <link rel="stylesheet" th:href="@{css/pagination.css}">
+
+
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="nav-header">
+
+                        <div class="dropdown profile-element"> <span>
+                            <img alt="image" class="img-circle" src="img/profile_small.jpg" />
+                             </span>
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+                                <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold" th:text="${session.user.username}">abc</strong>
+                                    <!--                                <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold" th:text="${session.user.username}">abc</strong>-->
+                             </span> <span class="text-muted text-xs block">超级管理员 <b class="caret"></b></span> </span>
+                            </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                <li><a href="form_avatar.html">修改头像</a>
+                                </li>
+                                <li><a href="profile.html">个人资料</a>
+                                </li>
+                                <li><a href="contacts.html">联系我们</a>
+                                </li>
+                                <li><a href="mailbox.html">信箱</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li><a  th:href="@{/LoginOut}">安全退出</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="logo-element">
+                            H+
+                        </div>
+
+                    </li>
+                    <li >
+                        <a href="#" th:href="@{/admin}"><i class="fa fa-th-large"></i> <span class="nav-label">主页</span> </a>
+                        <!--                        <ul class="nav nav-second-level">-->
+                        <!--                            <li><a href="index_1.html">主页示例一</a>-->
+                        <!--                            </li>-->
+                        <!--                            <li><a href="index_2.html">主页示例二</a>-->
+                        <!--                            </li>-->
+                        <!--                            <li><a href="index_3.html">主页示例三</a>-->
+                        <!--                            </li>-->
+                        <!--                            <li><a href="index_4.html">主页示例四</a>-->
+                        <!--                            </li>-->
+                        <!--                        </ul>-->
+                    </li>
+                    <li>
+                        <a href="#" th:href="@{/college}" ><i class="fa fa-columns"></i> <span class="nav-label">学院管理</span></a>
+                    </li>
+                    <li >
+                        <a href="index.html#" th:href="@{/teacher}"><i class="fa fa fa-globe"></i> <span class="nav-label">教师管理</span></a>
+
+                    </li>
+                    <li class="active">
+                        <a href="index.html#" th:href="@{/clazz}"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">班级管理</span></a>
+                    </li>
+                    <li>
+                        <a href="index.html#" th:href="@{/course}"><i class="fa fa-envelope"></i> <span class="nav-label">课程管理</span></a>
+                    </li>
+                    <li >
+                        <a href="index.html#" th:href="@{/student}"><i class="fa fa-flask"></i> <span class="nav-label">学生管理</span></a>
+                    </li>
+                    <li >
+                        <a href="index.html#" th:href="@{/scoredata}"><i class="fa fa-flask"></i> <span class="nav-label">评分日期</span></a>
+                    </li>
+                    <li >
+                        <a href="index.html#" th:href="@{/toast}"><i class="fa fa-flask"></i> <span class="nav-label">通知编辑</span></a>
+                    </li>
+
+                </ul>
+
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="gray-bg">
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " ><i class="fa fa-bars"></i> </a>
+                        <form role="search" class="navbar-form-custom" method="post" action="search_results.html">
+                            <div class="form-group">
+                                <input type="text" placeholder="请输入您需要查找的内容 …" class="form-control" name="top-search" id="top-search">
+                            </div>
+                        </form>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li>
+                            <span class="m-r-sm text-muted welcome-message"><a href="index.html" th:href="@{/admin}" title="返回首页"><i class="fa fa-home"></i></a>欢迎使用学生管理系统</span>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="index.html#">
+                                <i class="fa fa-envelope"></i>  <span class="label label-warning">16</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-messages">
+                                <li>
+                                    <div class="dropdown-messages-box">
+                                        <a href="profile.html" class="pull-left">
+                                            <img alt="image" class="img-circle" src="img/a7.jpg">
+                                        </a>
+                                        <div class="media-body">
+                                            <small class="pull-right">46小时前</small>
+                                            <strong>小四</strong> 项目已处理完结
+                                            <br>
+                                            <small class="text-muted">3天前 2014.11.8</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <div class="dropdown-messages-box">
+                                        <a href="profile.html" class="pull-left">
+                                            <img alt="image" class="img-circle" src="img/a4.jpg">
+                                        </a>
+                                        <div class="media-body ">
+                                            <small class="pull-right text-navy">25小时前</small>
+                                            <strong>国民岳父</strong> 这是一条测试信息
+                                            <br>
+                                            <small class="text-muted">昨天</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <div class="text-center link-block">
+                                        <a href="mailbox.html">
+                                            <i class="fa fa-envelope"></i>  <strong> 查看所有消息</strong>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="index.html#">
+                                <i class="fa fa-bell"></i>  <span class="label label-primary">8</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-alerts">
+                                <li>
+                                    <a href="mailbox.html">
+                                        <div>
+                                            <i class="fa fa-envelope fa-fw"></i> 您有16条未读消息
+                                            <span class="pull-right text-muted small">4分钟前</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="profile.html">
+                                        <div>
+                                            <i class="fa fa-qq fa-fw"></i> 3条新回复
+                                            <span class="pull-right text-muted small">12分钟钱</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <div class="text-center link-block">
+                                        <a href="notifications.html">
+                                            <strong>查看所有 </strong>
+                                            <i class="fa fa-angle-right"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                        <li>
+                            <a href="login.html" th:href="@{/LoginOut}">
+                                <i class="fa fa-sign-out"></i> 退出
+                            </a>
+                        </li>
+                    </ul>
+
+                </nav>
+            </div>
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>班级管理</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="index.html" th:href="@{/admin}">主页</a>
+                        </li>
+                        <li class="active">
+                            <strong>班级管理</strong>
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+
+
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-content text-center p-md">
+
+                                <h2><span class="text-navy">宁德师范学院</span>
+                                    班级管理</h2>
+
+                                <!--                                <p>-->
+                                <!--                                    所有设置您可以点击页面右上侧的绿色齿轮图标查看效果。-->
+                                <!--                                </p>-->
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>班级信息</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="table_basic.html#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="table_basic.html#">选项1</a>
+                                </li>
+                                <li><a href="table_basic.html#">选项2</a>
+                                </li>
+                            </ul>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-5 m-b-xs">
+                                <!--                                <select class="input-sm form-control input-s-sm inline">-->
+                                <!--                                    <option value="0">请选择</option>-->
+                                <!--                                    <option value="1">选项1</option>-->
+                                <!--                                    <option value="2">选项2</option>-->
+                                <!--                                    <option value="3">选项3</option>-->
+                                <!--                                </select>-->
+                                <h2><button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal">班级添加</button></h2>
+                                <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none; margin-top: 10%">
+                                    <div class="modal-dialog">
+                                        <form th:action="@{/addClazz}" method="post" class=" modal-content animated bounceInRight">
+
+                                            <div class="modal-body">
+
+                                                <div class="form-group"><label>班级</label> <input type="text" name="name" placeholder="请输入班级" class="form-control"></div>
+                                              <div class="form-group"><label>学院</label> <select  name="cid"  class="form-control" >
+                                                    <option th:each="college:${colleges}" th:value="${college.id}">
+                                                        <div th:text="${college.name}" ></div>
+                                                    </option>
+                                                </select></div>
+                                               </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                                                <button type="submit" class="btn btn-primary" >添加</button>
+                                            </div>
+                                            </small>
+                                        </form><small class="font-bold"></small>
+                                    </div><small class="font-bold">
+                                </small></div>
+                            </div>
+                            <div class="col-sm-4 m-b-xs">
+                                <!--                                <div data-toggle="buttons" class="btn-group">-->
+                                <!--                                    <label class="btn btn-sm btn-white">-->
+                                <!--                                        <input type="radio" id="option1" name="options">天</label>-->
+                                <!--                                    <label class="btn btn-sm btn-white active">-->
+                                <!--                                        <input type="radio" id="option2" name="options">周</label>-->
+                                <!--                                    <label class="btn btn-sm btn-white">-->
+                                <!--                                        <input type="radio" id="option3" name="options">月</label>-->
+                                <!--                                </div>-->
+                            </div>
+                                                        <div class="col-sm-3">
+                                                            <form th:action="@{/clazz}">
+                                                            <div class="input-group">
+                                                                <input type="text" placeholder="请输入班级" name="name" id="researchName" class="input-sm form-control"> <span class="input-group-btn">
+                                                                    <button type="submit"  class="btn btn-sm btn-primary"> 搜索</button> </span>
+                                                            </div>
+                                                            </form>
+                                                        </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+
+                                    <th>#</th>
+                                    <th>班级名称</th>
+<!--                                    <th>id</th>-->
+
+                                    <th style="text-align: left">所属学院</th>
+
+                                    <th style="text-align: left">操作</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="clazz:${clazzs}">
+                                    <td th:text="${clazzStat.count}">
+                                        <!--                                        <input type="checkbox" checked class="i-checks" name="input[]">-->
+                                    </td>
+                                    <td th:text="${clazz.name}"></td>
+<!--                                    <td th:text="${clazz.id}" ></td>-->
+
+
+                                    <div th:each="college:${colleges}">
+                                    <td th:if="${college.id}==${clazz.cid}" th:text="${college.name}">
+                                    </td>
+                                    </div>
+
+
+                                    <td>
+                                        <a  th:href="@{/editClazzPage}+'?id='+${clazz.id}" class="btn btn-sm btn-success" >编辑</a>
+
+
+                                        <button th:attr="del_uri=@{/deleteClazz/}+${clazz.id}"  class="btn btn-sm btn-danger deleteBtn" >删除</button>
+
+
+                                    </td>
+                                </tr>
+                                </tbody>
+
+                            </table>
+                            <!-- 开始分页 -->
+                            <div id="pages">
+                            </div>
+<!--                            <div style="left: 5%;position: absolute;margin-top: 7.5%">-->
+<!--                                <a href="#" class="btn btn-primary" th:href="@{/teacher}+'?pageNum=1'">首页</a>-->
+<!--                            </div>-->
+
+<!--                            <div style="left: 90%;position: absolute;margin-top: 5%">-->
+<!--                                <a href="#" class="btn btn-primary" th:href="@{/teacher}+'?pageNum='+${(counts/10)+1}">末页</a>-->
+<!--                            </div>-->
+
+                        </div>
+
+
+
+
+                    </div>
+                    <form id="deleteCollegeFrom" ></form>
+                </div>
+
+
+            </div>
+            <div class="footer">
+
+                <div class="pull-right">
+                    By：<a href="#" target="_blank">ChenHao</a>
+                </div>
+                <div>
+                    <strong>Copyright</strong> 宁德师院 | 学生成绩管理系统 &copy; 2020-2021
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <script src="js/bootstrap.min.js?v=3.4.0"></script>
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="js/hplus.js?v=2.2.0"></script>
+    <script src="js/plugins/pace/pace.min.js"></script>
+
+    <!-- Toastr script -->
+    <script src="js/plugins/toastr/toastr.min.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+        $(function(){
+            var html = "";
+            html+='<div class="pages"  style="font-size:15px; text-align:center ;">';
+            html+='<div class="col-md-5" style="float:left ;text-align:left">当前第 [[${pageInfo.pageNum}]] 页，共 [[${pageInfo.pages}]]页，共 [[${pageInfo.total}]] 条记录&emsp;&emsp;';
+            // html+='<select id="pageSize"  style="width:45px"  language=javascript οnchange="javascript:window.location.href=this.options[this.selectedIndex].value">';
+            // for(var i=10;i<=30;i+=5){
+            //     if([[${pageInfo.pageSize}]]==i){
+            //         html+='<option selected="selected"  value="clazz?page=[[${pageInfo.pageNum}]]&size='+i+'">'+i+'</option>';
+            //     }else{
+            //         html+='<option value="clazz?page=[[${pageInfo.pageNum}]]&size='+i+'">'+i+'</option>';
+            //     }
+            // }
+            // html+='</select></div>';
+            html+='</div>';
+
+            html+='<div class="pagenation" class="col-md-6" >';
+            var first ='<a href="clazz?page=1&size=[[${pageInfo.pageSize}]]" aria-label="Previous">首页</a>&emsp;';
+            var before ='<a href="clazz?page=[[${pageInfo.pageNum-1}]]&size=[[${pageInfo.pageSize}]]" >上一页</a>&emsp;';
+            html+= first;
+            html += before;
+            var begin;
+            var end;
+            if ([[${pageInfo.pages}]]<6){
+                begin=1;
+                end=[[${pageInfo.pages}]];
+            }else{
+                begin = [[${pageInfo.pageNum}]]-3;
+                end = [[${pageInfo.pageNum+2}]];
+                if (begin< 1){
+                    begin= 1;
+                    end = begin + 5;
+                }
+                if (end > [[${pageInfo.pages}]]){
+                    end = [[${pageInfo.pages}]];
+                    begin = end -5;
+                }
+            }
+            var max = [[${pageInfo.pages}]];
+            var str ='';
+            for (var i = begin ; i <= end ; i++) {
+                str += '<a href="clazz?page='+i+'&size=[[${pageInfo.pageSize}]]" >'+i+'</a>&emsp;';
+
+            }
+            html+=str;
+
+            if ([[${pageInfo.pageNum >= pageInfo.pages}]]){
+                var lastPage ='<a href="clazz?page='+max+'&size=[[${pageInfo.pageSize}]]" >下一页</a>&emsp;';
+            }else {
+                var lastPage ='<a href="clazz?page=[[${pageInfo.pageNum+1}]]&size=[[${pageInfo.pageSize}]]" >下一页</a>&emsp;';
+            }
+            var nextPage ='<a href="clazz?page=[[${pageInfo.pages}]]&size=[[${pageInfo.pageSize}]]" aria-label="Next" >尾页</a>';
+            html+=lastPage;
+            html+=nextPage;
+            html+='</div>';
+            $("#pages").html(html);
+        })
+    </script>
+    <script type="text/javascript">
+        $(".deleteBtn").click(function () {
+            //删除教师
+            $("#deleteCollegeFrom").attr("action",$(this).attr("del_uri")).submit();
+            return false;
+        });
+        function research() {
+            var researchName='researchName='+$('#researchName').val();
+            alert($('#researchName').val())
+            $.ajax({
+                type:'get',
+                url:'research',
+                data:researchName,
+                dataType:"json",
+                success:function (data) {
+                    alert("abc")
+
+                }
+            })
+        }
+    </script>
+    <script type="text/javascript">
+
+        $(function () {
+
+            var i = -1;
+            var toastCount = 0;
+            var $toastlast;
+            var getMessage = function () {
+                var msg = 'Hi, welcome to Inspinia. This is example of Toastr notification box.';
+                return msg;
+            };
+
+            $('#showsimple').click(function () {
+                // Display a success toast, with a title
+                toastr.success('Without any options', 'Simple notification!')
+            });
+            $('#showtoast').click(function () {
+                var shortCutFunction = $("#toastTypeGroup input:radio:checked").val();
+                var msg = $('#message').val();
+                var title = $('#title').val() || '';
+                var $showDuration = $('#showDuration');
+                var $hideDuration = $('#hideDuration');
+                var $timeOut = $('#timeOut');
+                var $extendedTimeOut = $('#extendedTimeOut');
+                var $showEasing = $('#showEasing');
+                var $hideEasing = $('#hideEasing');
+                var $showMethod = $('#showMethod');
+                var $hideMethod = $('#hideMethod');
+                var toastIndex = toastCount++;
+                toastr.options = {
+                    closeButton: $('#closeButton').prop('checked'),
+                    debug: $('#debugInfo').prop('checked'),
+                    progressBar: $('#progressBar').prop('checked'),
+                    positionClass: $('#positionGroup input:radio:checked').val() || 'toast-top-right',
+                    onclick: null
+                };
+                if ($('#addBehaviorOnToastClick').prop('checked')) {
+                    toastr.options.onclick = function () {
+                        alert('You can perform some custom action after a toast goes away');
+                    };
+                }
+                if ($showDuration.val().length) {
+                    toastr.options.showDuration = $showDuration.val();
+                }
+                if ($hideDuration.val().length) {
+                    toastr.options.hideDuration = $hideDuration.val();
+                }
+                if ($timeOut.val().length) {
+                    toastr.options.timeOut = $timeOut.val();
+                }
+                if ($extendedTimeOut.val().length) {
+                    toastr.options.extendedTimeOut = $extendedTimeOut.val();
+                }
+                if ($showEasing.val().length) {
+                    toastr.options.showEasing = $showEasing.val();
+                }
+                if ($hideEasing.val().length) {
+                    toastr.options.hideEasing = $hideEasing.val();
+                }
+                if ($showMethod.val().length) {
+                    toastr.options.showMethod = $showMethod.val();
+                }
+                if ($hideMethod.val().length) {
+                    toastr.options.hideMethod = $hideMethod.val();
+                }
+                if (!msg) {
+                    msg = getMessage();
+                }
+                $("#toastrOptions").text("Command: toastr[" + shortCutFunction + "](\"" + msg + (title ? "\", \"" + title : '') + "\")\n\ntoastr.options = " + JSON.stringify(toastr.options, null, 2));
+                var $toast = toastr[shortCutFunction](msg, title); // Wire up an event handler to a button in the toast, if it exists
+                $toastlast = $toast;
+                if ($toast.find('#okBtn').length) {
+                    $toast.delegate('#okBtn', 'click', function () {
+                        alert('you clicked me. i was toast #' + toastIndex + '. goodbye!');
+                        $toast.remove();
+                    });
+                }
+                if ($toast.find('#surpriseBtn').length) {
+                    $toast.delegate('#surpriseBtn', 'click', function () {
+                        alert('Surprise! you clicked me. i was toast #' + toastIndex + '. You could perform an action here.');
+                    });
+                }
+            });
+
+            function getLastToast() {
+                return $toastlast;
+            }
+            $('#clearlasttoast').click(function () {
+                toastr.clear(getLastToast());
+            });
+            $('#cleartoasts').click(function () {
+                toastr.clear();
+            });
+        })
+    </script>
+
+</body>
+
+</html>

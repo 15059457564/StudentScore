@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<title>学生成绩管理系统|登录</title>
+<link rel="stylesheet" type="text/css" href="css/normalize.css" th:href="@{css/normalize.css}" />
+<link rel="stylesheet" type="text/css" href="css/demo.css" th:href="@{css/demo.css}"/>
+<!--	<script type="text/javascript" src="js/jquery.min.js" th:src="@{js/jquery.min.js}"></script>-->
+	<script src="js/jquery-2.1.1.min.js"></script>
+<!--必要样式-->
+<link rel="stylesheet" type="text/css" href="css/component.css" th:href="@{css/component.css}" />
+<!--	<link href="css/bootstrap.min.css" rel="stylesheet">-->
+<!--[if IE]>
+<script src="js/html5.js" ></script>
+<![endif]-->
+	<script type="text/javascript">
+
+		$(function(){
+			//点击图片切换验证码
+			$("#vcodeImg").click(function(){
+				// $("#vcodeImg").attr("src","get_capcha.do?"+new Date().getDate())
+				this.src="yzm?"+new Date().getTime();
+			});
+
+			//登录
+			$("#submitBtn").click(function(){
+				var type=$('[name=type]:checked').val()
+				$.ajax({
+					type: "post",
+					url: "Login.do",
+					data:{
+						username:$("#username").val(),
+						password:$("#password").val(),
+						yzma:$("#yzma").val(),
+						 type:$('[name=type]:checked').val()
+					},
+					success: function(data){
+						if (type == 1) {
+							//登录管理员页面
+							if ("success" == data.type) {
+								window.location.href = "admin";
+							} else {
+								alert(data.msg);
+								$("#vcodeImg").click();
+								$("input[name='yzma']".val(""));
+							}
+						}else if(type == 2){
+							//登录教师页面
+							if ("success" == data.type) {
+								window.location.href = "teacherManage";
+							} else {
+								alert(data.msg);
+								$("#vcodeImg").click();
+								$("input[name='yzma']".val(""));
+							}
+
+						}else{
+							//登录学生页面
+							if ("success" == data.type) {
+								window.location.href = "StudentHomePage";
+							} else {
+								alert(data.msg);
+								$("#vcodeImg").click();
+								$("input[name='yzma']".val(""));
+							}
+						}}
+
+				});
+			});
+
+			// //设置复选框
+			// $(".skin-minimal input").iCheck({
+			// 	radioClass: 'iradio-blue',
+			// 	increaseArea: '25%'
+			// });
+		})
+	</script>
+</head>
+<body>
+		<div class="container demo-1">
+			<div class="content">
+				<div id="large-header" class="large-header">
+					<canvas id="demo-canvas"></canvas>
+					<div class="logo_box">
+						<h3 th:text="#{login.tip}">请登录</h3>
+						<form action="#" name="f" method="post">
+							<div class="input_outer">
+								<span class="u_user"></span>
+								<input name="username" id="username" class="text" style="color: #FFFFFF !important" type="text" th:placeholder="#{login.username}" placeholder="请输入账户">
+							</div>
+							<div class="input_outer">
+								<span class="us_uer"></span>
+								<input name="password" id="password" class="text" style="color: #FFFFFF !important; position:absolute; z-index:100;"value="" type="password" th:placeholder="#{login.password}" placeholder="请输入密码">
+							</div>
+							<div class="input_outer" style="width: 50%">
+								<span class="us_uer"></span>
+								<input name="yzma" id="yzma" class="text" style="width: 50%; color: #FFFFFF !important; position:absolute; z-index:100;"value="" type="text" th:placeholder="#{login.code}" placeholder="验证码">
+								<img title="点击图片切换验证码" id="vcodeImg" src="yzm" style="margin-left: 200px">
+							</div>
+							<div class="mb2"><a id="submitBtn" class="act-but submit"  style="color: #FFFFFF" th:text="#{login.btn}">登录</a></div>
+
+							<div class="" style="text-align: center;">
+								<div class="radio-box" style="float: left;margin-left: 40px">
+									<input type="radio" id="radio-3" name="type"  checked value="3" />
+									<label for="radio-1" th:text="#{login.student}">学生</label>
+								</div>
+								<div class="radio-box"style="float: left;margin-left: 40px">
+									<input type="radio" id="radio-2" name="type" value="2" />
+									<label for="radio-2" th:text="#{login.teacher}">教师</label>
+								</div>
+								<div class="radio-box"style="float: left;margin-left: 40px">
+									<input type="radio" id="radio-1" name="type" value="1" />
+									<label for="radio-2" th:text="#{login.admin}">管理员</label>
+								</div>
+							</div>
+						</form>
+						<br><br><br><br><br><br><br><br>
+						<center>
+							<p class="mt-5 mb-3 text-muted">© 2020-2021</p>
+							<a style="color: white;font-size: 10px" href="#" th:href="@{/login(l='zh_CN')}">中文</a>&nbsp;|
+							<a style="color: white;font-size: 10px" href="#" th:href="@{/login(l='en_US')}">English</a>
+						</center>
+					</div>
+				</div>
+			</div>
+		</div><!-- /container -->
+		<script src="js/TweenLite.min.js" th:src="@{js/TweenLite.min.js}"></script>
+		<script src="js/EasePack.min.js"></script>
+		<script src="js/rAF.js"></script>
+		<script src="js/demo-1.js"></script>
+		<div style="text-align:center;">
+<p>Copyright &nbsp; 宁德师范 @ By chenhao </p>
+</div>
+	</body>
+</html>
