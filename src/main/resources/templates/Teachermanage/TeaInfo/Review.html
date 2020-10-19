@@ -269,7 +269,7 @@
                                     </td>
                                     <td th:each="course:${courses}" th:if="${course.id}==${teacour.courseid}" th:text="${course.name}"></td>
                                     <td th:each="clazz:${clazzs}" th:if="${clazz.id}==${teacour.clazzid}" th:text="${clazz.name}" style="text-align: center"></td>
-                                    <td th:if="${new java.util.Date().getTime()}>${scoreDate.start.getTime()} and ${new java.util.Date().getTime()}<${scoreDate.end.getTime()}">
+                                    <td th:if="${webTime}>${scoreDate.start.getTime()} and ${webTime}<${scoreDate.end.getTime()}">
                                         <a  th:href="@{/editScorePage/}+${teacour.id}" class="btn btn-sm btn-primary" >批改成绩</a>
                                         <a  th:href="@{/showScorePage/}+${teacour.id}" class="btn btn-sm btn-success" >查看与修改成绩</a>
                                     </td>

@@ -1,5 +1,6 @@
 package com.chenhao.stuscore.controller;
 
+import com.chenhao.stuscore.Util.GetTime;
 import com.chenhao.stuscore.domain.*;
 import com.chenhao.stuscore.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,11 @@ public class TeaInfoController {
         List<Course> courses = courseService.getAll();
         List<tea_course> teaCourByteacherid = teacherService.getTeaCourById(id);
         ScoreData scoreDate = scoreDateService.getDateByMaxTime();//获取最大id的时间  也就是最后输入的时间
+        //获取当前网络时间
+        String webUrl="http://www.baidu.com";//百度时间
+        long webTime= GetTime.getNetworkTime(webUrl);
+
+        mv.addObject("webTime",webTime);
         mv.addObject("scoreDate",scoreDate);
         mv.addObject("clazzs",clazzs);
         mv.addObject("courses",courses);
