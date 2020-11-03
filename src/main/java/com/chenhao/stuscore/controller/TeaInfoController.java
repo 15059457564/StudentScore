@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,7 +100,7 @@ public class TeaInfoController {
     }
     //登记成绩
     @PostMapping("Correct")
-    public String Correct(HttpServletRequest request){
+    public String Correct(HttpServletRequest request, HttpSession session){
         String[] ids = request.getParameterValues("stuid");
         String[] scores = request.getParameterValues("score");
         String[] courseids = request.getParameterValues("courseid");
@@ -108,12 +109,17 @@ public class TeaInfoController {
         List<score> list=new ArrayList<>();
         for (int i=0 ;i<ids.length;i++){
             if (scores[i]==""){
-                    scores[i]=0+"";
+                    scores[i]=0+"";                     //成绩为空就赋值为0
             }
 
             list.add(new score(Integer.parseInt(ids[i]),Integer.parseInt(courseids[i]),Integer.parseInt(scores[i]),Integer.parseInt(cids[i]),Integer.parseInt(clazzids[i])));
 
         }
+        for (score s:list
+             ) {
+            System.out.println(s);
+        }
+        session.setAttribute("score"+clazzids[0]+courseids[0],list);
         //先删除再添加
         teacherService.deletescoreByclazzid(clazzids[0],courseids[0]);
         for (score s:list) {

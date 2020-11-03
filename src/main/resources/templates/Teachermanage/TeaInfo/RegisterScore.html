@@ -251,7 +251,7 @@
                                         <input type="hidden" name="cid" th:value="${student.cid}">
                                         <input type="hidden" name="courseid" th:value="${teaCourByIdOne.courseid}">
                                         <input type="hidden" name="stuid"   th:value="${student.id}">
-                                        <input name="score" type="text" id="score">
+                                        <input name="score" type="text" id="score" onblur="checkInt(this.value,101);">
                                     </td>
 
 
@@ -271,7 +271,11 @@
 <!--                                </tr>-->
                                 </tbody>
                             </table>
+                                <div style="float: right">
+                                <input type="button" value="保存" class="btn btn-primary">
                                 <input type="submit" value="提交" class="btn-success btn" >
+                                    <a   class="btn btn-default" th:href="@{/scoreManage}">取消</a>
+                                </div>
                             </form>
                         </div>
 
@@ -282,7 +286,7 @@
             </div>
             <div class="footer">
                 <div class="pull-right">
-                    By：<a href="http://www.zi-han.net" target="_blank">ChenHao</a>
+                    By：<a href="#" target="_blank">ChenHao</a>
                 </div>
                 <div>
                     <strong>Copyright</strong> 宁德师院 | 学生成绩管理系统 &copy; 2020-2021
@@ -293,8 +297,9 @@
     </div>
 
     <!-- Mainly scripts -->
-    <script src="js/jquery-2.1.1.min.js"></script>
-    <script src="js/bootstrap.min.js?v=3.4.0"></script>
+<!--    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js" th:src="@{http://code.jquery.com/jquery-migrate-1.2.1.min.js}"></script>-->
+    <script src="js/jquery-2.1.1.min.js" th:src="@{js/jquery-2.1.1.min.js}"></script>
+    <script src="js/bootstrap.min.js?v=3.4.0" th:src="@{js/bootstrap.min.js?v=3.4.0}"></script>
     <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
@@ -330,7 +335,29 @@
 
     <!-- Sparkline demo data  -->
     <script src="js/demo/sparkline-demo.js"></script>
+    <script>
+        function checkInt(n,max){
 
+            var regex = /^\d+$/;
+
+            if(regex.test(n)){
+                if(n<max && n>-1){
+
+                }else{
+                    alert("请输入0-100的数字");
+                    this.value="";
+
+
+                }
+            }else{
+
+                alert("请输入0-100的数字");
+                this.value="";
+
+
+            }
+        }
+    </script>
     <script type="text/javascript" th:inline="javascript">
         $(function () {
             $("#scollege").change(function () {

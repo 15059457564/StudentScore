@@ -220,7 +220,7 @@
                                     <th >学生姓名</th>
 
                                     <th>成绩</th>
-                                    <th>操作</th>
+<!--                                    <th>操作</th>-->
 
 
                                 </tr>
@@ -237,11 +237,11 @@
                                         <input  type="hidden" name="stuid" th:value="${student.id}">
                                         <input type="hidden" name="courseid" th:value="${teaCourByIdOne.courseid}">
                                         <div th:each="score:${scores}">
-                                        <input name="score" th:if="${student.id}==${score.stuid}" th:value="${score.score}">
+                                        <input name="score" readonly th:if="${student.id}==${score.stuid}" th:value="${score.score}" onblur="checkInt(this.value,101);">
                                         </div>
 
                                     </td>
-                                    <td><input type="submit" class="btn btn-primary" value="修改"></td>
+                                    <td><input type="hidden" class="btn btn-primary" value="修改"></td>
                                     </form>
 
 
@@ -320,7 +320,22 @@
 
     <!-- Sparkline demo data  -->
     <script src="js/demo/sparkline-demo.js"></script>
+    <script>
+        function checkInt(n,max){
+            var regex = /^\d+$/;
+            if(regex.test(n)){
+                if(n<max && n>-1){
 
+                }else{
+                    alert("请输入0-100的数字")
+                    this.value=""
+                }
+            }else{
+                alert("请输入0-100的数字");
+                this.value=""
+            }
+        }
+    </script>
     <script type="text/javascript" th:inline="javascript">
         $(function () {
             $("#scollege").change(function () {

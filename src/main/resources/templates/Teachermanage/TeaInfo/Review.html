@@ -257,7 +257,8 @@
                                     <th>#</th>
                                     <th>课程名称</th>
                                     <th style="text-align: center">教授班级</th>
-                                    <th >操作</th>
+                                    <th >评定成绩</th>
+                                    <th>查看成绩</th>
 
                                 </tr>
                                 </thead>
@@ -271,7 +272,10 @@
                                     <td th:each="clazz:${clazzs}" th:if="${clazz.id}==${teacour.clazzid}" th:text="${clazz.name}" style="text-align: center"></td>
                                     <td th:if="${webTime}>${scoreDate.start.getTime()} and ${webTime}<${scoreDate.end.getTime()}">
                                         <a  th:href="@{/editScorePage/}+${teacour.id}" class="btn btn-sm btn-primary" >批改成绩</a>
-                                        <a  th:href="@{/showScorePage/}+${teacour.id}" class="btn btn-sm btn-success" >查看与修改成绩</a>
+
+                                    </td>
+                                    <td>
+                                    <a  th:href="@{/showScorePage/}+${teacour.id}" class="btn btn-sm btn-success" >查看成绩</a>
                                     </td>
                                 </tr>
                                 </tbody>
