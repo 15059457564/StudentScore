@@ -251,7 +251,8 @@
                                         <input type="hidden" name="cid" th:value="${student.cid}">
                                         <input type="hidden" name="courseid" th:value="${teaCourByIdOne.courseid}">
                                         <input type="hidden" name="stuid"   th:value="${student.id}">
-                                        <input name="score" type="text" id="score" onblur="checkInt(this.value,101);">
+                                        <input name="score" type="text"  onblur="checkInt(this.value,101);" th:if="${session.score!=null}" th:value="${session.score[studentStat.index].score}">
+                                        <input name="score" type="text"  onblur="checkInt(this.value,101);" th:if="${session.score==null}">
                                     </td>
 
 
@@ -272,8 +273,10 @@
                                 </tbody>
                             </table>
                                 <div style="float: right">
-                                <input type="button" value="保存" class="btn btn-primary">
-                                <input type="submit" value="提交" class="btn-success btn" >
+
+                                <input type="submit" value="保存" class="btn btn-primary" >
+
+                                    <a  th:href="@{/submit}" th:if="${session.msg}!=null" class="btn-success btn">提交</a>
                                     <a   class="btn btn-default" th:href="@{/scoreManage}">取消</a>
                                 </div>
                             </form>
@@ -335,7 +338,13 @@
 
     <!-- Sparkline demo data  -->
     <script src="js/demo/sparkline-demo.js"></script>
-    <script>
+
+
+
+    <script >
+
+
+
         function checkInt(n,max){
 
             var regex = /^\d+$/;

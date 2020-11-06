@@ -3,6 +3,7 @@ package com.chenhao.stuscore.controller;
 import com.chenhao.stuscore.Util.GetTime;
 import com.chenhao.stuscore.domain.*;
 import com.chenhao.stuscore.service.*;
+import org.apache.ibatis.scripting.xmltags.ForEachSqlNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author ch
@@ -84,11 +87,12 @@ public class TeaInfoController {
     }
     //登记成绩页
     @GetMapping("editScorePage/{id}")
-    public ModelAndView editScorePage(ModelAndView mv,@PathVariable("id")Integer id){
+    public ModelAndView editScorePage(HttpSession session,ModelAndView mv,@PathVariable("id")Integer id){
 
         tea_course teaCourByIdOne = teacherService.getTeaCourByIdOne(id);
         List<Student> students = studentService.findByClazzId(teaCourByIdOne.getClazzid());
         List<Course> courses = courseService.getAll();
+        session.setAttribute("sessionid",id);
         //查询学生成绩 返回list表  根据学生stuid进行匹配
 //        List<score> scores = teacherService.findStudentScoreByClazzid(teaCourByIdOne.getClazzid(),teaCourByIdOne.getCourseid());
 //        mv.addObject("scores",scores);
@@ -98,7 +102,7 @@ public class TeaInfoController {
         mv.setViewName("Teachermanage/TeaInfo/RegisterScore");
         return mv;
     }
-    //登记成绩
+    //保存成绩
     @PostMapping("Correct")
     public String Correct(HttpServletRequest request, HttpSession session){
         String[] ids = request.getParameterValues("stuid");
@@ -115,19 +119,35 @@ public class TeaInfoController {
             list.add(new score(Integer.parseInt(ids[i]),Integer.parseInt(courseids[i]),Integer.parseInt(scores[i]),Integer.parseInt(cids[i]),Integer.parseInt(clazzids[i])));
 
         }
-        for (score s:list
-             ) {
-            System.out.println(s);
+        session.setAttribute("msg",123);//信息不为空
+        session.setAttribute("score",list);
+        if (null == list || list.size() ==0 ){
+
+            session.setAttribute("msg",null);
         }
-        session.setAttribute("score"+clazzids[0]+courseids[0],list);
+        Integer id = (Integer) session.getAttribute("sessionid");
+        return "redirect:/editScorePage/"+id;
+
+
+    }
+
+    //登记成绩
+    @GetMapping("submit")
+    public String submit(HttpSession session,HttpServletRequest request){
+
+
+        List<score> list= (List<score>) session.getAttribute("score");//获取到成绩
+
+
+
         //先删除再添加
-        teacherService.deletescoreByclazzid(clazzids[0],courseids[0]);
+        teacherService.deletescoreByclazzid(list.get(0).getClazzid().toString(),list.get(0).getCourseid().toString());
         for (score s:list) {
             teacherService.addScore(s);
         }
+        session.setAttribute("score",null);//清除score数据
+        session.setAttribute("msg",null);
         return "redirect:/scoreManage";
-
-
     }
 
     //查看成绩
