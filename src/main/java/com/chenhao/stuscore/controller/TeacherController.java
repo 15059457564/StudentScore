@@ -77,12 +77,14 @@ public class TeacherController {
         mv.addObject("teaCours", teaCours);
         mv.addObject("colleges", colleges);
         mv.addObject("teacher", teacher);
+        System.out.println("我在这了");
         mv.setViewName("teacher/editTeacher");
         return mv;
     }
 
-    @PostMapping("/editTeacher")
-    public String editTeacher(@RequestParam("courseids") int[] courseids,Teacher teacher) {
+    @GetMapping("/editTeacher")
+    public String editTeacher(@RequestParam(value = "courseids",defaultValue = "") int[] courseids,Teacher teacher) {
+
         teacherService.editCourse(teacher.getId(),courseids);
         teacherService.edit(teacher);
         return "redirect:/teacher";
