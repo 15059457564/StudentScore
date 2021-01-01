@@ -42,8 +42,7 @@ public class CollegeController {
             ModelAndView mv){
 
         College college1 = collegeService.findById(id);
-//        System.out.println(college1);
-//        collegeService.edit(college);
+
         mv.addObject("college1",college1);
         mv.setViewName("college/editCollege");
 
@@ -52,7 +51,7 @@ public class CollegeController {
 //开始修改
     @PostMapping("/editCollege")
     public String editCollege(College college){
-//        System.out.println(college);
+
         collegeService.edit(college);
         return "redirect:/college";
     }

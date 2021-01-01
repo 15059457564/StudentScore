@@ -346,7 +346,7 @@
                                         <button th:attr="del_uri=@{/deleteClazz/}+${clazz.id}"  class="btn btn-sm btn-danger deleteBtn" >删除</button>
                                     </td>
                                     <td>
-                                        <a  th:href="@{#}" class="btn btn-sm btn-primary" style="text-align: center">下载</a>
+                                        <a  th:href="@{/clazzResult}+'?id='+${clazz.id}" class="btn btn-sm btn-primary" style="text-align: center">下载</a>
                                     </td>
                                 </tr>
                                 </tbody>

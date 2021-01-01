@@ -251,8 +251,8 @@
                                         <input type="hidden" name="cid" th:value="${student.cid}">
                                         <input type="hidden" name="courseid" th:value="${teaCourByIdOne.courseid}">
                                         <input type="hidden" name="stuid"   th:value="${student.id}">
-                                        <input name="score" type="text"  onblur="checkInt(this.value,101);" th:if="${session.score!=null}" th:value="${session.score[studentStat.index].score}">
-                                        <input name="score" type="text"  onblur="checkInt(this.value,101);" th:if="${session.score==null}">
+                                        <input name="score" type="number" min="0" max="100" onblur="checkInt(this.value,101);" th:if="${session.score!=null}" th:value="${session.score[studentStat.index].score}">
+                                        <input name="score" type="number" min="0" max="100" onblur="checkInt(this.value,101);" th:if="${session.score==null}">
                                     </td>
 
 

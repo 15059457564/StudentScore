@@ -138,7 +138,7 @@ public class StudentController {
     //修改学生信息
     @PostMapping("/editStudent")
     public String editStudent(Student student){
-        System.out.println(student);
+//        System.out.println(student);
         studentService.edit(student);
 
         return "redirect:/student";
