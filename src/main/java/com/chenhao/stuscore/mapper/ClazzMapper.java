@@ -1,6 +1,7 @@
 package com.chenhao.stuscore.mapper;
 
 import com.chenhao.stuscore.domain.Clazz;
+import com.chenhao.stuscore.domain.ClazzResult;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -31,4 +32,6 @@ public interface ClazzMapper {
     Integer findclazzidByName(String clazz);
     @Select("Select name from t_clazz where id = #{clazzid}")
     String findClazzNameByid(Integer clazzid);
+    @Select("SELECT a.name,b.score,d.name 'course'FROM t_score b join t_student a join t_clazz c join t_course d on b.stuid= a.id where b.clazzid=c.id and b.clazzid=#{id} and b.courseid=d.id")
+    List<ClazzResult> getclazzResult(Integer id);
 }

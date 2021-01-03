@@ -77,7 +77,7 @@ public class TeacherController {
         mv.addObject("teaCours", teaCours);
         mv.addObject("colleges", colleges);
         mv.addObject("teacher", teacher);
-        System.out.println("我在这了");
+
         mv.setViewName("teacher/editTeacher");
         return mv;
     }

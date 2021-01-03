@@ -1,6 +1,7 @@
 package com.chenhao.stuscore.service;
 
 import com.chenhao.stuscore.domain.Clazz;
+import com.chenhao.stuscore.domain.ClazzResult;
 
 import java.util.List;
 
@@ -29,4 +30,6 @@ public interface ClazzService {
     List<Clazz> findByCollegeId(Integer collegeId);
 
     String findClazzNameByid(Integer clazzid);
+
+    List<ClazzResult> getclazzResult(Integer id);
 }

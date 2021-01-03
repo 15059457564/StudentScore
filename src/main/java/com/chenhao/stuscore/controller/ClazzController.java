@@ -1,6 +1,8 @@
 package com.chenhao.stuscore.controller;
 
+import com.chenhao.stuscore.Util.ExcelUtil;
 import com.chenhao.stuscore.domain.Clazz;
+import com.chenhao.stuscore.domain.ClazzResult;
 import com.chenhao.stuscore.domain.College;
 import com.chenhao.stuscore.service.ClazzService;
 import com.chenhao.stuscore.service.CollegeService;
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -72,8 +76,15 @@ public class ClazzController {
     }
     //班级的所有学生成绩  用Excel导出给用户
     @GetMapping("/clazzResult")
-    public String clazzResult(Integer id){
-        
-        return "";
+    @ResponseBody
+    public void clazzResult(Integer id, HttpServletResponse response) throws IOException {
+        List<ClazzResult> clazzresluts=clazzService.getclazzResult(id);
+        Clazz byId = clazzService.findById(id);
+        System.out.println(byId);
+        response.setContentType("application/vnd.ms-excel");
+        String file_name = new String(byId.getName().getBytes(),"ISO-8859-1");
+        response.setHeader("Content-Disposition","attachment; filename="+file_name+".xlsx");
+        ExcelUtil.writeExcel(response,clazzresluts);
+
     }
 }

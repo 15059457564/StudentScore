@@ -1,6 +1,7 @@
 package com.chenhao.stuscore.service.impl;
 
 import com.chenhao.stuscore.domain.Clazz;
+import com.chenhao.stuscore.domain.ClazzResult;
 import com.chenhao.stuscore.mapper.ClazzMapper;
 import com.chenhao.stuscore.service.ClazzService;
 import com.github.pagehelper.PageHelper;
@@ -68,5 +69,10 @@ public class ClazzServiceImpl implements ClazzService {
     @Override
     public String findClazzNameByid(Integer clazzid) {
         return clazzMapper.findClazzNameByid(clazzid);
+    }
+
+    @Override
+    public List<ClazzResult> getclazzResult(Integer id) {
+        return clazzMapper.getclazzResult(id);
     }
 }
